@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/permutatrix/rollup-stream#readme",
   "dependencies": {
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
     "rollup": "^0.49.2"
   },
   "devDependencies": {
