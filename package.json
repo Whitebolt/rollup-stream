@@ -1,6 +1,6 @@
 {
-  "name": "rollup-stream",
-  "version": "1.24.1",
+  "name": "@simpo/rollup-vinyl-adaptor",
+  "version": "1.25.0",
   "description": "a wrapper around Rollup that returns a stream instead of a Promise",
   "main": "index.js",
   "scripts": {
@@ -23,7 +23,8 @@
   "dependencies": {
     "lodash.isobject": "^3.0.2",
     "lodash.isstring": "^4.0.1",
-    "rollup": "^0.49.2"
+    "rollup": "^0.49.2",
+    "vinyl": "^2.2.0"
   },
   "devDependencies": {
     "chai": "^3.4.1",

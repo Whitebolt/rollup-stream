@@ -1,7 +1,10 @@
-const Readable = require('stream').Readable;
+'use strict';
+
 const path = require('path');
 const isString = require('lodash.isstring');
 const isObject = require('lodash.isobject');
+const Vinyl = require('vinyl');
+const Stream = require('stream');
 
 
 function _getOptions(options, stream) {
@@ -77,13 +80,16 @@ async function go({options, rollup}, stream) {
 	try {
 		const bundle = await rollup.rollup(options);
 		stream.emit('bundle', bundle);
-		const {code, map} = await bundle.generate(options);
+		const results = await bundle.generate(options);
+		const {code, map} = results;
+		const vinyl = new Vinyl({
+			contents: Buffer.from(code),
+			sourceMap: map,
+			path: options.input,
+			cwd: process.cwd()
+		});
 
-		stream.push(code);
-		if(options.sourcemap || options.sourceMap) {
-			stream.push('\n//# sourceMappingURL=');
-			stream.push(map.toUrl());
-		}
+		stream.write(vinyl);
 		stream.push(null);
 	} catch(err) {
 		setImmediate(()=>stream.emit('error', err));
@@ -91,8 +97,7 @@ async function go({options, rollup}, stream) {
 }
 
 function rollupStream(options) {
-	const stream = new Readable();
-	stream._read = function() {};
+	const stream = new Stream.PassThrough({objectMode:true});
 
 	_getOptions(options, stream)
 		.then(options=>go(options, stream));
