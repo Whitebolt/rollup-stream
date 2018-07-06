@@ -76,16 +76,33 @@ async function _parseOptions(options, stream) {
 	return {};
 }
 
+function makeArray(ary) {
+	if (Array.isArray(ary)) return ary;
+	if ((ary === null) || (ary === undefined)) return [];
+	return [ary];
+}
+
 async function go({options, rollup}, stream) {
 	try {
-		const bundle = await rollup.rollup(options);
+		const bundle = await rollup.rollup({
+			...options.input,
+			plugins: [
+				...makeArray(options.input.plugins),
+				{options: input=>{
+					options.input = input;
+					return null;
+				}}
+			]
+		});
+
 		stream.emit('bundle', bundle);
-		const results = await bundle.generate(options);
+		const results = await bundle.generate(options.output);
 		const {code, map} = results;
+
 		const vinyl = new Vinyl({
 			contents: Buffer.from(code),
 			sourceMap: map,
-			path: options.input,
+			path: options.input.input,
 			cwd: process.cwd()
 		});
 
@@ -100,7 +117,10 @@ function rollupStream(options) {
 	const stream = new Stream.PassThrough({objectMode:true});
 
 	_getOptions(options, stream)
-		.then(options=>go(options, stream));
+		.then(
+			options=>go(options, stream),
+			err=>setImmediate(()=>stream.emit('error', err))
+		);
 
 	return stream;
 }
