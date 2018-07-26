@@ -7,6 +7,7 @@ const Vinyl = require('vinyl');
 const Stream = require('stream');
 
 
+
 function _getOptions(options, stream) {
 	return _parseOptions(isString(options) ?
 		_getStringOptions(options, stream) :
@@ -86,6 +87,10 @@ async function go({options, rollup}, stream) {
 	try {
 		const bundle = await rollup.rollup({
 			...options.input,
+			onwarn: (warning, warn)=>{
+				stream.emit('warn', warning);
+				if (!!options.input.onwarn) return options.input.onwarn(warning, warn);
+			},
 			plugins: [
 				...makeArray(options.input.plugins),
 				{options: input=>{
@@ -109,6 +114,7 @@ async function go({options, rollup}, stream) {
 		stream.write(vinyl);
 		stream.push(null);
 	} catch(err) {
+		console.log("ERROR",options.input.input);
 		setImmediate(()=>stream.emit('error', err));
 	}
 }

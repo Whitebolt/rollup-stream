@@ -110,6 +110,7 @@ packages:
       mkdirp: 0.3.0
     deprecated: 'Jade has been renamed to pug, please install the latest version of pug instead of jade'
     dev: true
+    hasBin: true
     resolution:
       integrity: sha1-jxDXl32NefL2/4YqgbBRPMslaGw=
   /lodash.isobject/3.0.2:
@@ -144,6 +145,7 @@ packages:
     dependencies:
       minimist: 0.0.8
     dev: true
+    hasBin: true
     resolution:
       integrity: sha1-MAV0OOrGz3+MR2fzhkjWaX11yQM=
   /mocha/2.5.3:
@@ -161,6 +163,7 @@ packages:
     dev: true
     engines:
       node: '>= 0.8.x'
+    hasBin: true
     resolution:
       integrity: sha1-FhvlvetJZ3HrmzV0UFC2IrWu/Fg=
   /ms/0.7.1:
@@ -201,6 +204,7 @@ packages:
       integrity: sha1-9CcHe3urWSzCmBl6uaqsT+TvoFU=
   /rollup/0.49.3:
     dev: false
+    hasBin: true
     resolution:
       integrity: sha512-n/vHRX4GhMIyGZEQRANcSFVtvz99bSRbNMuoC33ar9f4CViqffyF9WklLb2mxIQ6I/uFf7wDEpc66bXBFE7FvA==
   /safe-buffer/5.1.2:
@@ -221,6 +225,7 @@ packages:
     dev: true
     engines:
       node: '>=0.10.0'
+    hasBin: true
     resolution:
       integrity: sha1-/x7R5hFp0Gs88tWI4YixjYhH4X4=
   /to-iso-string/0.0.2:
@@ -254,7 +259,7 @@ packages:
     resolution:
       integrity: sha512-MBH+yP0kC/GQ5GwBqrTPTzEfiiLjta7hTtvQtbxBgTeSXsmKQRQecjibMbxIXzVT3Y9KJK+drOz1/k+vsu8Nkg==
 registry: 'https://registry.npmjs.org/'
-shrinkwrapMinorVersion: 7
+shrinkwrapMinorVersion: 8
 shrinkwrapVersion: 3
 specifiers:
   chai: ^3.4.1
