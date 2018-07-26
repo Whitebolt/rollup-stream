@@ -87,14 +87,15 @@ async function go({options, rollup}, stream) {
 	try {
 		const bundle = await rollup.rollup({
 			...options.input,
-			onwarn: (warning, warn)=>{
-				stream.emit('warn', warning);
-				if (!!options.input.onwarn) return options.input.onwarn(warning, warn);
-			},
 			plugins: [
 				...makeArray(options.input.plugins),
 				{options: input=>{
+					const onwarn = input.onwarn;
 					options.input = input;
+					input.onwarn = (warning, warn)=>{
+						stream.emit('warn', warning);
+						if (!!onwarn) onwarn(warning, warn);
+					};
 					return null;
 				}}
 			]

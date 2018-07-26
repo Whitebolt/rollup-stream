@@ -1,6 +1,6 @@
 {
   "name": "@simpo/rollup-vinyl-adaptor",
-  "version": "1.26.1",
+  "version": "1.26.2",
   "description": "a wrapper around Rollup that returns a stream instead of a Promise",
   "main": "index.js",
   "scripts": {
