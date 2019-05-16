@@ -103,16 +103,18 @@ async function go({options, rollup}, stream) {
 
 		stream.emit('bundle', bundle);
 		const results = await bundle.generate(options.output);
-		const {code, map} = results;
+		(results.output || results || []).forEach(results=>{
+			const {code, map} = results;
 
-		const vinyl = new Vinyl({
-			contents: Buffer.from(code),
-			sourceMap: map,
-			path: options.input.input,
-			cwd: process.cwd()
+			const vinyl = new Vinyl({
+				contents: Buffer.from(code),
+				sourceMap: map,
+				path: options.input.input,
+				cwd: process.cwd()
+			});
+
+			stream.write(vinyl);
 		});
-
-		stream.write(vinyl);
 		stream.push(null);
 	} catch(err) {
 		console.log("ERROR",options.input.input);
